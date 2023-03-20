@@ -14,11 +14,15 @@ Improvement for IO-bound programs mostly : multitasking. Search for concrete
 example of long-running task + user inputs. Multi-tasking can dramatically 
 reduce the latency and only hurt throughput a little.
 
+**TODO.** example with button widget in jupyter notebook.
+
 Nota: multi-tasking = running tasks (~= functions but not quite!) concurrently
 
 Sometimes multi-tasking can even improve the troughput, with a better usage
 of computer ressources. Example: periodic task + sleep, or web request.
 (TODO: analyze the ressources).
+
+TODO: aiohttp requests examples with pokemons.
 
 ## Problem exposition II
 
