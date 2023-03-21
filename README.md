@@ -12,12 +12,16 @@ mostly (computations).
 import hashlib
 import struct
 
-def crypto_challenge(message, num_zeros=4):
+def check(message, i, prefix="0000"):
+    data = message.encode("utf-8")
+    suffix = struct.pack("<I", i)
+    hex_digest = hashlib.sha256(data + suffix).hexdigest()
+    return hex_digest.startswith(prefix)
+
+def challenge(message, prefix="0000"):
     data = message.encode("utf-8")
     for i in range(2**32-1):
-        suffix = struct.pack("<I", i)
-        hex_ = hashlib.sha256(data + suffix).hexdigest()
-        if hex_.startswith("0" * num_zeros):
+        if check(message, i, prefix=prefix):
             return i
 ```
 
@@ -38,6 +42,39 @@ of computer ressources. Example: periodic task + sleep, or web request.
 Examples:
 
   - requests & getting pokemon names. (see requests vs aiohttp solution)
+
+```python
+import requests
+
+for i in range(1, 20):
+    url = f"https://pokeapi.co/api/v2/pokemon/{i}"
+    pokemon = requests.get(url).json()
+    print(pokemon["name"])
+```
+
+```
+bulbasaur
+ivysaur
+venusaur
+charmander
+charmeleon
+charizard
+squirtle
+wartortle
+blastoise
+caterpie
+metapod
+butterfree
+weedle
+kakuna
+beedrill
+pidgey
+pidgeotto
+pidgeot
+rattata
+```
+
+Source: [Twilio Blog](https://www.twilio.com/blog/asynchronous-http-requests-in-python-with-aiohttp)
 
   - ...
 
