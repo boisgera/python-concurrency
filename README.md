@@ -8,6 +8,19 @@ Definition and examples ; for latency, user input (game, web app, etc.),
 web request, file/database read/write, etc. Througput easy: data crunching
 mostly (computations).
 
+```python
+import hashlib
+import struct
+
+def crypto_challenge(message, num_zeros=4):
+    data = message.encode("utf-8")
+    for i in range(2**32-1):
+        suffix = struct.pack("<I", i)
+        hex_ = hashlib.sha256(data + suffix).hexdigest()
+        if hex_.startswith("0" * num_zeros):
+            return i
+```
+
 -> IO-bound vs CPU-bound programs.
 
 Improvement for IO-bound programs mostly : multitasking. Search for concrete 
@@ -19,6 +32,12 @@ Nota: multi-tasking = running tasks (~= functions but not quite!) concurrently
 Sometimes multi-tasking can even improve the troughput, with a better usage
 of computer ressources. Example: periodic task + sleep, or web request.
 (TODO: analyze the ressources).
+
+Examples:
+
+  - requests & getting pokemon names. (see requests vs aiohttp solution)
+
+  - ...
 
 ## Problem exposition II
 
